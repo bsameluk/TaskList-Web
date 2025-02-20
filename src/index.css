@@ -81,6 +81,7 @@ button:focus-visible {
 }
 .list-items {
   display: flex;
+  flex-wrap: wrap;
   gap: 15px;
 }
 .item {

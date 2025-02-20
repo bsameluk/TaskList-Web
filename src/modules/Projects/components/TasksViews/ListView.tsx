@@ -1,9 +1,13 @@
-import { Project } from "../../types";
+import { Task } from "../../types";
 
-const ListView: React.FC<{ project: Project }> = ({ project }) => {
+interface ListViewProps {
+  tasks: Task[];
+}
+
+const ListView: React.FC<ListViewProps> = ({ tasks }) => {
   return (
     <div className="flex flex-col gap-4">
-      {project.tasks.map((task) => (
+      {tasks.map((task) => (
         <div
           key={task.id}
           onClick={() => {}}

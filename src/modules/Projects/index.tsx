@@ -1,13 +1,20 @@
 import { useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_PROJECTS } from './queries';
-import { Project, ProjectsData } from './types';
+import { GET_PROJECTS, GET_TASKS_BY_PROJECT } from './queries';
+import { Project, ProjectsData, TaskData } from './types';
 import ProjectsList from './components/ProjectsList';
 import TasksList from './components/TasksList';
 
 const Projects: React.FC = () => {
-  const { loading, data } = useQuery<ProjectsData>(GET_PROJECTS);
+  // State
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  // Queries
+  const { loading, data } = useQuery<ProjectsData>(GET_PROJECTS);
+  const { loading: tasksLoading, data: tasksData } = useQuery<TaskData>(GET_TASKS_BY_PROJECT, {
+    variables: { project_id: selectedProject?.id },
+    skip: !selectedProject?.id
+  });
 
   if (!data && loading) {
     return (
@@ -23,7 +30,10 @@ const Projects: React.FC = () => {
         selectedProject={selectedProject}
         setSelectedProject={setSelectedProject}
       />
-      <TasksList project={selectedProject} />
+      <TasksList
+        tasksLoading={tasksLoading}
+        tasksData={tasksData}
+      />
     </>
   )
 };

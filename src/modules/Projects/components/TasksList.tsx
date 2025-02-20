@@ -1,19 +1,24 @@
 import { useState } from "react";
-import { Project } from "../types"
+import { TaskData } from "../types"
 import ListView from "./TasksViews/ListView";
 import GridView from "./TasksViews/GridView";
 
+interface TasksListProps {
+  tasksLoading: boolean;
+  tasksData?: TaskData;
+}
 interface ViewModeComponentProps {
   viewMode: 'grid' | 'list';
   setViewMode: (viewMode: 'grid' | 'list') => void;
 }
 interface TaskItemsProps {
-  project: Project | null;
+  tasksLoading: boolean;
+  tasksData?: TaskData;
   viewMode: 'grid' | 'list';
 }
 
-const TasksList: React.FC<{ project: Project | null }> = ({ project }) => {
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
+const TasksList: React.FC<TasksListProps> = ({ tasksLoading, tasksData }) => {
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   return (
     <div className='tasks-list'>
@@ -21,7 +26,7 @@ const TasksList: React.FC<{ project: Project | null }> = ({ project }) => {
         <h2 className='text-2xl font-bold'>Tasks</h2>
         <ViewModeComponent viewMode={viewMode} setViewMode={setViewMode} />
       </div>
-      <TaskItems project={project} viewMode={viewMode} />
+      <TaskItems tasksLoading={tasksLoading} tasksData={tasksData} viewMode={viewMode} />
     </div>
   )
 }
@@ -45,17 +50,20 @@ const ViewModeComponent: React.FC<ViewModeComponentProps> = ({ viewMode, setView
   )
 }
 
-const TaskItems: React.FC<TaskItemsProps> = ({ project, viewMode }) => {
-  if (!project) return (
+const TaskItems: React.FC<TaskItemsProps> = ({ tasksLoading, tasksData, viewMode }) => {
+  if (!tasksData) return (
     <div>Please select a project</div>
   );
-  if (project.tasks.length === 0) return (
+  if (tasksLoading) return (
+    <div>Loading...</div>
+  );
+  if (tasksData?.tasks.length === 0) return (
     <div>No tasks</div>
   );
   return (
     viewMode === 'list'
-      ? <ListView project={project} />
-      : <GridView project={project} />
+      ? <ListView tasks={tasksData?.tasks || []} />
+      : <GridView tasks={tasksData?.tasks || []} />
   )
 }
 

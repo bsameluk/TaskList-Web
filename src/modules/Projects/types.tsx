@@ -6,9 +6,12 @@ export interface Task {
 export interface Project {
   id: string;
   name: string;
-  tasks: Task[];
 }
 
 export interface ProjectsData {
   projects: Project[];
+}
+
+export interface TaskData {
+  tasks: Task[];
 }

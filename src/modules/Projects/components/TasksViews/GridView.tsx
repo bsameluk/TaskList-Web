@@ -1,9 +1,13 @@
-import { Project } from "../../types";
+import { Task } from "../../types";
 
-const GridView: React.FC<{ project: Project }> = ({ project }) => {
+interface GridViewProps {
+  tasks: Task[];
+}
+
+const GridView: React.FC<GridViewProps> = ({ tasks }) => {
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-      {project.tasks.map((task) => (
+      {tasks.map((task) => (
         <div
           key={task.id}
           onClick={() => {}}
