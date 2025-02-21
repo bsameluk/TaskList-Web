@@ -2,7 +2,7 @@
 
 A simple Task List App built with Ruby on Rails.
 
-DEMO - http://13.50.16.237:5173/
+DEMO - http://ec2-13-50-16-237.eu-north-1.compute.amazonaws.com/
 
 ## Ruby version
 - 3.3.0
