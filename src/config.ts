@@ -2,7 +2,9 @@ interface Config {
   GRAPHQL_URL: string;
 }
 
-const GRAPHQL_URL = process.env.VITE_GRAPHQL_URL || "http://localhost:3000/graphql";
+const GRAPHQL_URL = import.meta.env.VITE_GRAPHQL_URL || "http://localhost:3000/graphql";
+
+console.log('ENV URL:', import.meta.env.VITE_GRAPHQL_URL);
 
 const config: Record<string, Config> = {
   development: {
